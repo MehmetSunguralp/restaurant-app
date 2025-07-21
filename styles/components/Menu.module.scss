@@ -1,0 +1,11 @@
+.menu {
+	max-width: 900px;
+	margin: 3rem auto 0 auto;
+	padding: 2rem;
+}
+.products {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 2rem;
+	margin-top: 2rem;
+}

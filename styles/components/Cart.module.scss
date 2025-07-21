@@ -1,0 +1,11 @@
+.cart {
+	max-width: 700px;
+	margin: 3rem auto 0 auto;
+	padding: 2rem;
+}
+.items {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
