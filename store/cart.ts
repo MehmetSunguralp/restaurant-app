@@ -7,8 +7,14 @@ export const useCartStore = create<CartState>((set) => ({
 		set((state) => {
 			const existing = state.items.find((i) => i.productId === item.productId);
 			if (existing) {
+				const newQuantity = existing.quantity + item.quantity;
+				if (newQuantity <= 0) {
+					return {
+						items: state.items.filter((i) => i.productId !== item.productId),
+					};
+				}
 				return {
-					items: state.items.map((i) => (i.productId === item.productId ? { ...i, quantity: i.quantity + item.quantity } : i)),
+					items: state.items.map((i) => (i.productId === item.productId ? { ...i, quantity: newQuantity } : i)),
 				};
 			}
 			return { items: [...state.items, item] };

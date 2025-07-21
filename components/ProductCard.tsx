@@ -18,7 +18,7 @@ export default function ProductCard({ product }: Props) {
 			<h3>{product.name}</h3>
 			<p className={styles.desc}>{product.description}</p>
 			<div className={styles.bottom}>
-				<span className={styles.price}>${product.price.toFixed(2)}</span>
+				<span className={styles.price}>₺{product.price.toFixed(2)}</span>
 				{!cartItem || cartItem.quantity === 0 ? (
 					<button
 						className={styles.addBtn}
@@ -32,7 +32,7 @@ export default function ProductCard({ product }: Props) {
 							})
 						}
 					>
-						Add to Cart
+						Sepete Ekle
 					</button>
 				) : (
 					<div className={styles.qtyControls}>

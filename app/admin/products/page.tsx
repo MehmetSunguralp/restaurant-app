@@ -223,17 +223,17 @@ export default function AdminProductsPage() {
 					fontFamily: "Inter, sans-serif",
 				}}
 			>
-				<h2 style={{ fontWeight: 600, fontSize: 20 }}>Categories</h2>
+				<h2 style={{ fontWeight: 600, fontSize: 20 }}>Kategoriler</h2>
 				<div style={{ display: "flex", gap: 8, alignItems: "center" }}>
 					<input
 						type="text"
-						placeholder="New category name"
+						placeholder="Yeni Kategori Adı"
 						value={newCategory}
 						onChange={(e) => setNewCategory(e.target.value)}
 						style={{ padding: 8, borderRadius: 6, border: "1px solid #ccc", fontFamily: "Inter, sans-serif", fontSize: 16 }}
 					/>
 					<Button onClick={handleAddCategory} style={{ fontFamily: "Inter, sans-serif", fontSize: 16 }}>
-						Add Category
+						Kategori Ekle
 					</Button>
 				</div>
 				<div style={{ marginTop: 8 }}>
@@ -287,7 +287,7 @@ export default function AdminProductsPage() {
 			</div>
 			<div style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 16 }}>
 				<Button onClick={handleAdd} style={{ fontFamily: "Inter, sans-serif", fontSize: 16, padding: "8px 20px" }}>
-					Add Product
+					Ürün Ekle
 				</Button>
 				<input
 					type="text"
@@ -301,7 +301,7 @@ export default function AdminProductsPage() {
 					onChange={(e) => setCategory(e.target.value)}
 					style={{ padding: 8, borderRadius: 6, border: "1px solid #ccc", fontFamily: "Inter, sans-serif", fontSize: 16 }}
 				>
-					<option value="">All Categories</option>
+					<option value="">Tüm Kategoriler</option>
 					{categories.map((cat) => (
 						<option key={cat.id} value={cat.name} style={{ fontFamily: "Inter, sans-serif" }}>
 							{cat.name}
@@ -323,13 +323,13 @@ export default function AdminProductsPage() {
 				>
 					<thead>
 						<tr style={{ background: "#222", color: "#fff", fontWeight: 600 }}>
-							<th style={{ padding: 14, fontSize: 16 }}>Name</th>
-							<th style={{ padding: 14, fontSize: 16 }}>Description</th>
-							<th style={{ padding: 14, fontSize: 16 }}>Category</th>
-							<th style={{ padding: 14, fontSize: 16 }}>Availability</th>
-							<th style={{ padding: 14, fontSize: 16 }}>Image URL</th>
-							<th style={{ padding: 14, fontSize: 16 }}>Price</th>
-							<th style={{ padding: 14, fontSize: 16 }}>Actions</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Ürün</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Açıklama</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Kategori</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Stok</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Resim Linki</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Fiyat</th>
+							<th style={{ padding: 14, fontSize: 16 }}>Kaydet/Sil</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -347,7 +347,7 @@ export default function AdminProductsPage() {
 										borderBottom: "1px solid #eee",
 									}}
 								>
-									<td style={{ padding: 10 }}>
+									<td style={{ padding: 10, verticalAlign: "middle" }}>
 										<input
 											value={row.name}
 											onChange={(e) => handleEdit(key, "name", e.target.value)}
@@ -361,7 +361,7 @@ export default function AdminProductsPage() {
 											}}
 										/>
 									</td>
-									<td style={{ padding: 10 }}>
+									<td style={{ padding: 10, verticalAlign: "middle" }}>
 										<input
 											value={row.description}
 											onChange={(e) => handleEdit(key, "description", e.target.value)}
@@ -375,7 +375,7 @@ export default function AdminProductsPage() {
 											}}
 										/>
 									</td>
-									<td style={{ padding: 10 }}>
+									<td style={{ padding: 10, verticalAlign: "middle" }}>
 										<select
 											value={row.categoryId}
 											onChange={(e) => handleEdit(key, "categoryId", e.target.value)}
@@ -395,7 +395,7 @@ export default function AdminProductsPage() {
 											))}
 										</select>
 									</td>
-									<td style={{ padding: 10 }}>
+									<td style={{ padding: 10, verticalAlign: "middle" }}>
 										<select
 											value={row.availability ? "yes" : "no"}
 											onChange={(e) => handleEdit(key, "availability", e.target.value === "yes")}
@@ -408,11 +408,11 @@ export default function AdminProductsPage() {
 												fontSize: 15,
 											}}
 										>
-											<option value="yes">Yes</option>
-											<option value="no">No</option>
+											<option value="yes">Var</option>
+											<option value="no">Yok</option>
 										</select>
 									</td>
-									<td style={{ padding: 10 }}>
+									<td style={{ padding: 10, verticalAlign: "middle" }}>
 										<input
 											value={row.imageUrl}
 											onChange={(e) => handleEdit(key, "imageUrl", e.target.value)}
@@ -426,22 +426,35 @@ export default function AdminProductsPage() {
 											}}
 										/>
 									</td>
-									<td style={{ padding: 10 }}>
+									<td style={{ padding: 10, verticalAlign: "middle" }}>
 										<input
 											type="number"
 											value={row.price}
 											onChange={(e) => handleEdit(key, "price", parseFloat(e.target.value))}
 											style={{
-												width: 80,
+												width: "100%",
+												maxWidth: 80,
 												padding: 8,
 												borderRadius: 6,
 												border: "1px solid #ccc",
 												fontFamily: "Inter, sans-serif",
 												fontSize: 15,
+												boxSizing: "border-box",
+												textAlign: "right",
 											}}
 										/>
 									</td>
-									<td style={{ padding: 10, display: "flex", gap: 8 }}>
+									<td
+										style={{
+											padding: 10,
+											display: "flex",
+											gap: 8,
+											alignItems: "center",
+											justifyContent: "center",
+											minWidth: 120,
+											verticalAlign: "middle",
+										}}
+									>
 										<Button
 											onClick={() => handleSave(key)}
 											disabled={loading || !editing[key]}

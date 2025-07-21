@@ -12,7 +12,7 @@ export default function CategoryTabs({ categories, selected, onSelect }: Props) 
 	return (
 		<div className={styles.tabs}>
 			<button className={!selected ? styles.active : ""} onClick={() => onSelect(null)}>
-				All
+				Tüm Kategoriler
 			</button>
 			{categories.map((cat) => (
 				<button key={cat.id} className={selected === cat.name ? styles.active : ""} onClick={() => onSelect(cat.name)}>

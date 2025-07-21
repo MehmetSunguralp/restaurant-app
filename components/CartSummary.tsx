@@ -8,7 +8,7 @@ export default function CartSummary() {
 	return (
 		<div className={styles.summary}>
 			<h3>Order Summary</h3>
-			<div className={styles.total}>Total: ${total.toFixed(2)}</div>
+			<div className={styles.total}>Total: ₺{total.toFixed(2)}</div>
 			<button className={styles.checkoutBtn}>Proceed to Checkout</button>
 		</div>
 	);

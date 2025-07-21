@@ -30,7 +30,7 @@ export default function CartItem({ item, onRemove }: Props) {
 					</button>
 				</div>
 			</div>
-			<div className={styles.price}>${(item.price * item.quantity).toFixed(2)}</div>
+			<div className={styles.price}>₺{(item.price * item.quantity).toFixed(2)}</div>
 		</div>
 	);
 }
