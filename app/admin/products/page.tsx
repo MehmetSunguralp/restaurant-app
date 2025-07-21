@@ -12,6 +12,7 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import { RiSaveLine } from "react-icons/ri";
 
 import "react-toastify/dist/ReactToastify.css";
+import Skeleton from "@/components/Skeleton";
 
 export default function AdminProductsPage() {
 	const [products, setProducts] = useState<(Product | (Partial<Product> & { isNew: boolean }))[]>([]);
@@ -22,8 +23,11 @@ export default function AdminProductsPage() {
 	const [loading, setLoading] = useState(false);
 	const [newCategory, setNewCategory] = useState("");
 	const [newProductCount, setNewProductCount] = useState(0);
+	const [loadingProducts, setLoadingProducts] = useState(true);
+	const [loadingCategories, setLoadingCategories] = useState(true);
 
 	useEffect(() => {
+		setLoadingCategories(true);
 		fetch("/api/categories")
 			.then((res) => res.json())
 			.then((data) => {
@@ -37,15 +41,20 @@ export default function AdminProductsPage() {
 					}
 				}
 				setCategories(unique);
+				setLoadingCategories(false);
 			});
 	}, []);
 
 	useEffect(() => {
+		setLoadingProducts(true);
 		let url = `/api/products?take=100`;
 		if (category) url += `&category=${category}`;
 		fetch(url)
 			.then((res) => res.json())
-			.then((data) => setProducts(data.products));
+			.then((data) => {
+				setProducts(data.products);
+				setLoadingProducts(false);
+			});
 	}, [category]);
 
 	const filtered = products.filter((p) => typeof p.name === "string" && p.name.toLowerCase().includes(search.toLowerCase()));
@@ -237,47 +246,51 @@ export default function AdminProductsPage() {
 					</Button>
 				</div>
 				<div style={{ marginTop: 8 }}>
-					{categories.map((cat) => (
-						<span
-							key={cat.id}
-							style={{
-								marginRight: 12,
-								background: "#eee",
-								padding: "2px 8px",
-								borderRadius: 4,
-								fontFamily: "Inter, sans-serif",
-								fontSize: 15,
-								position: "relative",
-								display: "inline-block",
-							}}
-							className="category-tag"
-						>
-							{cat.name}
-							<span
-								style={{
-									display: "none",
-									position: "absolute",
-									top: "0",
-									right: -8,
-									transform: "translateY(-50%)",
-									background: "#e63946",
-									color: "#fff",
-									borderRadius: "50%",
-									width: 18,
-									height: 18,
-									alignItems: "center",
-									justifyContent: "center",
-									fontSize: 12,
-									cursor: "pointer",
-									zIndex: 2,
-								}}
-								className="category-delete"
-								onClick={() => handleDeleteCategory(cat.id)}
-							>
-								<FaTimes />
-							</span>
-						</span>
-					))}
+					{loadingCategories
+						? Array.from({ length: 4 }).map((_, i) => (
+								<Skeleton key={i} width="80px" height="24px" style={{ display: "inline-block", marginRight: 12 }} />
+						  ))
+						: categories.map((cat) => (
+								<span
+									key={cat.id}
+									style={{
+										marginRight: 12,
+										background: "#eee",
+										padding: "2px 8px",
+										borderRadius: 4,
+										fontFamily: "Inter, sans-serif",
+										fontSize: 15,
+										position: "relative",
+										display: "inline-block",
+									}}
+									className="category-tag"
+								>
+									{cat.name}
+									<span
+										style={{
+											display: "none",
+											position: "absolute",
+											top: "0",
+											right: -8,
+											transform: "translateY(-50%)",
+											background: "#e63946",
+											color: "#fff",
+											borderRadius: "50%",
+											width: 18,
+											height: 18,
+											alignItems: "center",
+											justifyContent: "center",
+											fontSize: 12,
+											cursor: "pointer",
+											zIndex: 2,
+										}}
+										className="category-delete"
+										onClick={() => handleDeleteCategory(cat.id)}
+									>
+										<FaTimes />
+									</span>
+								</span>
+						  ))}
 					<style>{`
 						.category-tag:hover .category-delete {
 							display: flex !important;
@@ -333,165 +346,183 @@ export default function AdminProductsPage() {
 						</tr>
 					</thead>
 					<tbody>
-						{filtered.map((p, idx) => {
-							const key = (p as Product).id;
-							const row = editing[key] ?? p;
-							if (!row) return null;
-							return (
-								<tr
-									key={key}
-									className="modern-table-row"
-									style={{
-										background: idx % 2 === 0 ? "#f7f7fa" : "#fff",
-										transition: "background 0.2s",
-										borderBottom: "1px solid #eee",
-									}}
-								>
-									<td style={{ padding: 10, verticalAlign: "middle" }}>
-										<input
-											value={row.name}
-											onChange={(e) => handleEdit(key, "name", e.target.value)}
-											style={{
-												width: "100%",
-												padding: 8,
-												borderRadius: 6,
-												border: "1px solid #ccc",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-											}}
-										/>
-									</td>
-									<td style={{ padding: 10, verticalAlign: "middle" }}>
-										<input
-											value={row.description}
-											onChange={(e) => handleEdit(key, "description", e.target.value)}
-											style={{
-												width: "100%",
-												padding: 8,
-												borderRadius: 6,
-												border: "1px solid #ccc",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-											}}
-										/>
-									</td>
-									<td style={{ padding: 10, verticalAlign: "middle" }}>
-										<select
-											value={row.categoryId}
-											onChange={(e) => handleEdit(key, "categoryId", e.target.value)}
-											style={{
-												width: "100%",
-												padding: 8,
-												borderRadius: 6,
-												border: "1px solid #ccc",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-											}}
-										>
-											{categories.map((cat) => (
-												<option key={cat.id} value={cat.id} style={{ fontFamily: "Inter, sans-serif" }}>
-													{cat.name}
-												</option>
-											))}
-										</select>
-									</td>
-									<td style={{ padding: 10, verticalAlign: "middle" }}>
-										<select
-											value={row.availability ? "yes" : "no"}
-											onChange={(e) => handleEdit(key, "availability", e.target.value === "yes")}
-											style={{
-												width: "100%",
-												padding: 8,
-												borderRadius: 6,
-												border: "1px solid #ccc",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-											}}
-										>
-											<option value="yes">Var</option>
-											<option value="no">Yok</option>
-										</select>
-									</td>
-									<td style={{ padding: 10, verticalAlign: "middle" }}>
-										<input
-											value={row.imageUrl}
-											onChange={(e) => handleEdit(key, "imageUrl", e.target.value)}
-											style={{
-												width: "100%",
-												padding: 8,
-												borderRadius: 6,
-												border: "1px solid #ccc",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-											}}
-										/>
-									</td>
-									<td style={{ padding: 10, verticalAlign: "middle" }}>
-										<input
-											type="number"
-											value={row.price}
-											onChange={(e) => handleEdit(key, "price", parseFloat(e.target.value))}
-											style={{
-												marginInline: "auto",
-												width: "100%",
-												maxWidth: 80,
-												padding: 8,
-												borderRadius: 6,
-												border: "1px solid #ccc",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-												boxSizing: "border-box",
-												textAlign: "right",
-											}}
-										/>
-									</td>
-									<td
+						{loadingProducts
+							? Array.from({ length: 6 }).map((_, idx) => (
+									<tr
+										key={idx}
+										className="modern-table-row"
 										style={{
-											padding: 10,
-											display: "flex",
-											gap: 8,
-											alignItems: "center",
-											justifyContent: "center",
-											minWidth: 120,
-											verticalAlign: "middle",
+											background: idx % 2 === 0 ? "#f7f7fa" : "#fff",
+											transition: "background 0.2s",
+											borderBottom: "1px solid #eee",
 										}}
 									>
-										<Button
-											onClick={() => handleSave(key)}
-											disabled={loading || !editing[key]}
+										{Array.from({ length: 7 }).map((_, cidx) => (
+											<td key={cidx} style={{ padding: 10 }}>
+												<Skeleton height="32px" />
+											</td>
+										))}
+									</tr>
+							  ))
+							: filtered.map((p, idx) => {
+									const key = (p as Product).id;
+									const row = editing[key] ?? p;
+									if (!row) return null;
+									return (
+										<tr
+											key={key}
+											className="modern-table-row"
 											style={{
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-												padding: "8px 16px",
-												display: "flex",
-												alignItems: "center",
-												justifyContent: "center",
-												opacity: loading || !editing[key] ? 0.5 : 1,
-												cursor: loading || !editing[key] ? "not-allowed" : "pointer",
+												background: idx % 2 === 0 ? "#f7f7fa" : "#fff",
+												transition: "background 0.2s",
+												borderBottom: "1px solid #eee",
 											}}
 										>
-											<RiSaveLine size={20} />
-										</Button>
+											<td style={{ padding: 10, verticalAlign: "middle" }}>
+												<input
+													value={row.name}
+													onChange={(e) => handleEdit(key, "name", e.target.value)}
+													style={{
+														width: "100%",
+														padding: 8,
+														borderRadius: 6,
+														border: "1px solid #ccc",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+													}}
+												/>
+											</td>
+											<td style={{ padding: 10, verticalAlign: "middle" }}>
+												<input
+													value={row.description}
+													onChange={(e) => handleEdit(key, "description", e.target.value)}
+													style={{
+														width: "100%",
+														padding: 8,
+														borderRadius: 6,
+														border: "1px solid #ccc",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+													}}
+												/>
+											</td>
+											<td style={{ padding: 10, verticalAlign: "middle" }}>
+												<select
+													value={row.categoryId}
+													onChange={(e) => handleEdit(key, "categoryId", e.target.value)}
+													style={{
+														width: "100%",
+														padding: 8,
+														borderRadius: 6,
+														border: "1px solid #ccc",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+													}}
+												>
+													{categories.map((cat) => (
+														<option key={cat.id} value={cat.id} style={{ fontFamily: "Inter, sans-serif" }}>
+															{cat.name}
+														</option>
+													))}
+												</select>
+											</td>
+											<td style={{ padding: 10, verticalAlign: "middle" }}>
+												<select
+													value={row.availability ? "yes" : "no"}
+													onChange={(e) => handleEdit(key, "availability", e.target.value === "yes")}
+													style={{
+														width: "100%",
+														padding: 8,
+														borderRadius: 6,
+														border: "1px solid #ccc",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+													}}
+												>
+													<option value="yes">Var</option>
+													<option value="no">Yok</option>
+												</select>
+											</td>
+											<td style={{ padding: 10, verticalAlign: "middle" }}>
+												<input
+													value={row.imageUrl}
+													onChange={(e) => handleEdit(key, "imageUrl", e.target.value)}
+													style={{
+														width: "100%",
+														padding: 8,
+														borderRadius: 6,
+														border: "1px solid #ccc",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+													}}
+												/>
+											</td>
+											<td style={{ padding: 10, verticalAlign: "middle" }}>
+												<input
+													type="number"
+													value={row.price}
+													onChange={(e) => handleEdit(key, "price", parseFloat(e.target.value))}
+													style={{
+														marginInline: "auto",
+														width: "100%",
+														maxWidth: 80,
+														padding: 8,
+														borderRadius: 6,
+														border: "1px solid #ccc",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+														boxSizing: "border-box",
+														textAlign: "right",
+													}}
+												/>
+											</td>
+											<td
+												style={{
+													padding: 10,
+													display: "flex",
+													gap: 8,
+													alignItems: "center",
+													justifyContent: "center",
+													minWidth: 120,
+													verticalAlign: "middle",
+												}}
+											>
+												<Button
+													onClick={() => handleSave(key)}
+													disabled={loading || !editing[key]}
+													style={{
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+														padding: "8px 16px",
+														display: "flex",
+														alignItems: "center",
+														justifyContent: "center",
+														opacity: loading || !editing[key] ? 0.5 : 1,
+														cursor: loading || !editing[key] ? "not-allowed" : "pointer",
+													}}
+												>
+													<RiSaveLine size={20} />
+												</Button>
 
-										<Button
-											onClick={() => handleDelete(key)}
-											disabled={loading}
-											style={{
-												background: "#e63946",
-												fontFamily: "Inter, sans-serif",
-												fontSize: 15,
-												padding: "8px 16px",
-												display: "flex",
-												alignItems: "center",
-												justifyContent: "center",
-											}}
-										>
-											<RiDeleteBin7Line size={20} />
-										</Button>
-									</td>
-								</tr>
-							);
-						})}
+												<Button
+													onClick={() => handleDelete(key)}
+													disabled={loading}
+													style={{
+														background: "#e63946",
+														fontFamily: "Inter, sans-serif",
+														fontSize: 15,
+														padding: "8px 16px",
+														display: "flex",
+														alignItems: "center",
+														justifyContent: "center",
+													}}
+												>
+													<RiDeleteBin7Line size={20} />
+												</Button>
+											</td>
+										</tr>
+									);
+							  })}
 					</tbody>
 				</table>
 			</div>

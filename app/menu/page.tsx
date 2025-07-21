@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CategoryTabs from "@/components/CategoryTabs";
 import ProductCard from "@/components/ProductCard";
 import type { Category } from "@/types/product";
+import Skeleton from "@/components/Skeleton";
 
 import styles from "../../styles/components/Menu.module.scss";
 
@@ -11,11 +12,18 @@ export default function MenuPage() {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [selected, setSelected] = useState<string | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [loadingCategories, setLoadingCategories] = useState(true);
 
 	useEffect(() => {
+		setLoading(true);
 		fetch("/api/products?take=100" + (selected ? `&category=${selected}` : ""))
 			.then((res) => res.json())
-			.then((data) => setProducts(data.products));
+			.then((data) => {
+				setProducts(data.products);
+				setLoading(false);
+			});
+		setLoadingCategories(true);
 		fetch("/api/categories")
 			.then((res) => res.json())
 			.then((data) => {
@@ -29,6 +37,7 @@ export default function MenuPage() {
 					}
 				}
 				setCategories(unique);
+				setLoadingCategories(false);
 			});
 	}, [selected]);
 
@@ -46,11 +55,11 @@ export default function MenuPage() {
 					}}
 				>
 					<h1>Menu</h1>
-					<CategoryTabs categories={categories} selected={selected} onSelect={setSelected} />
+					<CategoryTabs categories={categories} selected={selected} onSelect={setSelected} loading={loadingCategories} />
 					<div className={styles.products}>
-						{products.map((product: any) => (
-							<ProductCard key={product.id} product={product} />
-						))}
+						{loading
+							? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} height={250} style={{ marginBottom: 16 }} />)
+							: products.map((product: any) => <ProductCard key={product.id} product={product} />)}
 					</div>
 				</div>
 			</main>

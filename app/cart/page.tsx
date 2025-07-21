@@ -5,16 +5,26 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
+import Skeleton from "@/components/Skeleton";
 
 import styles from "../../styles/components/Cart.module.scss";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function CartPage() {
 	const { items, removeFromCart } = useCartStore((state) => ({
 		items: state.items,
 		removeFromCart: state.removeFromCart,
 	}));
+
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setLoading(true);
+		// Simulate loading for demo, or set loading false after fetching cart items
+		setTimeout(() => setLoading(false), 500);
+	}, []);
 
 	const handleRemove = async (productId: string) => {
 		const result = await Swal.fire({
@@ -53,9 +63,9 @@ export default function CartPage() {
 					) : (
 						<>
 							<div className={styles.items}>
-								{items.map((item) => (
-									<CartItem key={item.productId} item={item} onRemove={handleRemove} />
-								))}
+								{loading
+									? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={80} style={{ marginBottom: 16 }} />)
+									: items.map((item) => <CartItem key={item.productId} item={item} onRemove={handleRemove} />)}
 							</div>
 							<CartSummary />
 						</>
