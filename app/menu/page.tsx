@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import CategoryTabs from "@/components/CategoryTabs";
 import ProductCard from "@/components/ProductCard";
 import type { Category } from "@/types/product";
@@ -36,17 +34,26 @@ export default function MenuPage() {
 
 	return (
 		<>
-			<Navbar />
 			<main className={styles.menu}>
-				<h1>Menu</h1>
-				<CategoryTabs categories={categories} selected={selected} onSelect={setSelected} />
-				<div className={styles.products}>
-					{products.map((product: any) => (
-						<ProductCard key={product.id} product={product} />
-					))}
+				<div
+					style={{
+						background: "rgba(255,255,255,0.5)",
+						borderRadius: 16,
+						boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+						padding: 32,
+						margin: "0 auto",
+						maxWidth: 1000,
+					}}
+				>
+					<h1>Menu</h1>
+					<CategoryTabs categories={categories} selected={selected} onSelect={setSelected} />
+					<div className={styles.products}>
+						{products.map((product: any) => (
+							<ProductCard key={product.id} product={product} />
+						))}
+					</div>
 				</div>
 			</main>
-			<Footer />
 		</>
 	);
 }

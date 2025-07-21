@@ -432,6 +432,7 @@ export default function AdminProductsPage() {
 											value={row.price}
 											onChange={(e) => handleEdit(key, "price", parseFloat(e.target.value))}
 											style={{
+												marginInline: "auto",
 												width: "100%",
 												maxWidth: 80,
 												padding: 8,

@@ -1,7 +1,14 @@
 body {
 	margin: 0;
 	padding: 0;
-	background: #fafafa;
+	// background: #fafafa;
+	//background-image: url("https://www.tilda.com/wp-content/uploads/2024/07/shutterstock_562247284-scaled.jpeg");
+	background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),
+		url("https://www.tilda.com/wp-content/uploads/2024/07/shutterstock_562247284-scaled.jpeg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	backdrop-filter: blur(4px);
 	color: #222;
 	font-family: "Inter", Arial, sans-serif;
 }

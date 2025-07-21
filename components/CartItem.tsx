@@ -1,6 +1,8 @@
 import { useCartStore } from "@/store/cart";
 import type { CartItem } from "@/types/cart";
 
+import { RiDeleteBin7Line } from "react-icons/ri";
+
 import styles from "../styles/components/CartItem.module.scss";
 
 type Props = {
@@ -26,7 +28,7 @@ export default function CartItem({ item, onRemove }: Props) {
 						className={styles.remove}
 						onClick={() => (onRemove ? onRemove(item.productId) : removeFromCart(item.productId))}
 					>
-						Remove
+						<RiDeleteBin7Line size={20} />
 					</button>
 				</div>
 			</div>
