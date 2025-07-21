@@ -54,7 +54,7 @@ export default function MenuPage() {
 						maxWidth: 1000,
 					}}
 				>
-					<h1>Menu</h1>
+					<h1>Menü</h1>
 					<CategoryTabs categories={categories} selected={selected} onSelect={setSelected} loading={loadingCategories} />
 					<div className={styles.products}>
 						{loading
