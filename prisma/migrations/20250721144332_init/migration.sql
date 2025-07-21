@@ -25,6 +25,7 @@ CREATE TABLE "Product" (
     "price" DOUBLE PRECISION NOT NULL,
     "imageUrl" TEXT,
     "categoryId" TEXT NOT NULL,
+    "availability" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );

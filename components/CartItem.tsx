@@ -5,9 +5,10 @@ import styles from "../styles/components/CartItem.module.scss";
 
 type Props = {
 	item: CartItem;
+	onRemove?: (productId: string) => void;
 };
 
-export default function CartItem({ item }: Props) {
+export default function CartItem({ item, onRemove }: Props) {
 	const removeFromCart = useCartStore((state) => state.removeFromCart);
 	const addToCart = useCartStore((state) => state.addToCart);
 	return (
@@ -16,10 +17,15 @@ export default function CartItem({ item }: Props) {
 			<div className={styles.info}>
 				<h4>{item.name}</h4>
 				<div className={styles.controls}>
-					<button onClick={() => addToCart({ ...item, quantity: -1 })}>-</button>
+					<button onClick={() => addToCart({ ...item, quantity: item.quantity > 1 ? -1 : 0 })} disabled={item.quantity <= 1}>
+						-
+					</button>
 					<span>{item.quantity}</span>
 					<button onClick={() => addToCart({ ...item, quantity: 1 })}>+</button>
-					<button className={styles.remove} onClick={() => removeFromCart(item.productId)}>
+					<button
+						className={styles.remove}
+						onClick={() => (onRemove ? onRemove(item.productId) : removeFromCart(item.productId))}
+					>
 						Remove
 					</button>
 				</div>

@@ -4,8 +4,9 @@ export type Product = {
 	description?: string;
 	price: number;
 	imageUrl?: string;
+	category: Category;
 	categoryId: string;
-	category?: Category;
+	availability: boolean;
 };
 
 export type Category = {

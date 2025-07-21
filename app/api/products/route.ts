@@ -30,3 +30,53 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
 	}
 }
+
+export async function PUT(req: NextRequest) {
+	try {
+		const body = await req.json();
+		const { id, name, description, price, imageUrl, categoryId, availability } = body;
+		if (!id) {
+			return NextResponse.json({ error: "Product id is required" }, { status: 400 });
+		}
+		const updated = await prisma.product.update({
+			where: { id },
+			data: { name, description, price, imageUrl, categoryId, availability },
+		});
+		return NextResponse.json(updated);
+	} catch (error) {
+		console.error("API PUT /products error:", error);
+		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+	}
+}
+
+export async function DELETE(req: NextRequest) {
+	try {
+		const { searchParams } = new URL(req.url);
+		const id = searchParams.get("id");
+		if (!id) {
+			return NextResponse.json({ error: "Product id is required" }, { status: 400 });
+		}
+		await prisma.product.delete({ where: { id } });
+		return NextResponse.json({ success: true });
+	} catch (error) {
+		console.error("API DELETE /products error:", error);
+		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+	}
+}
+
+export async function POST(req: NextRequest) {
+	try {
+		const body = await req.json();
+		const { name, description, price, imageUrl, categoryId, availability } = body;
+		if (!name || !categoryId || price === undefined) {
+			return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+		}
+		const created = await prisma.product.create({
+			data: { name, description, price, imageUrl, categoryId, availability },
+		});
+		return NextResponse.json(created);
+	} catch (error) {
+		console.error("API POST /products error:", error);
+		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+	}
+}
