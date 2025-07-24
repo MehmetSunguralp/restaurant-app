@@ -1,6 +1,9 @@
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { resend } from "@/lib/resend";
 import { hash } from "bcrypt";
+import { randomInt } from "crypto";
+import { verificationEmailTemplate } from "@/utils/emailTemplates";
 
 export async function POST(request: Request) {
 	try {
@@ -21,6 +24,7 @@ export async function POST(request: Request) {
 			return NextResponse.json({ user: null, error: "Bu email adresi zaten kullanılıyor" }, { status: 409 });
 		}
 
+		const code = String(randomInt(100000, 999999));
 		const hashedPassword = await hash(password, 10);
 		const newUser = await prisma.user.create({
 			data: {
@@ -28,9 +32,19 @@ export async function POST(request: Request) {
 				surname,
 				password: hashedPassword,
 				email,
+				emailVerifyCode: code,
+				emailVerifyExpires: new Date(Date.now() + 10 * 60 * 1000),
 			},
 		});
-        const {password: newUserPassword, ...rest} = newUser;
+		// In your signup route
+		await resend.emails.send({
+			from: "Restaurant App <onboarding@resend.dev>",
+			to: email,
+			subject: `E-posta Doğrulama Kodu | ${code} | Restaurant App`,
+			html: verificationEmailTemplate(code),
+		});
+
+		const { password: newUserPassword, ...rest } = newUser;
 		return NextResponse.json({ user: rest, message: "Kullanıcı başarıyla oluşturuldu" }, { status: 201 });
 	} catch (error) {
 		return NextResponse.json({ error: "Bir sorun oluştu" }, { status: 500 });

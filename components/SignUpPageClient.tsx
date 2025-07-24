@@ -62,12 +62,13 @@ export default function SignupPageClient({ session }: Props) {
 						password: values.password,
 					}),
 				});
+				localStorage.setItem("emailToVerify", values.email);
 
 				const data = await res.json();
 				if (!res.ok) {
 					toast.error(data.error || "Bir hata oluştu.");
 				} else {
-					router.push("/signin?signupSuccess=true");
+					router.push("/verify");
 					formik.resetForm();
 				}
 			} catch (err) {

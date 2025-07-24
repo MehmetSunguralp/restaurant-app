@@ -15,6 +15,9 @@ model User {
   password  String
   name      String
   surname   String
+  isVerified         Boolean  @default(false)
+  emailVerifyCode    String?  // 6-digit code
+  emailVerifyExpires DateTime?
   orders    Order[]
   createdAt DateTime @default(now())
 }
