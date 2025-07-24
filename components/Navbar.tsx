@@ -1,12 +1,19 @@
 "use client";
-import { useCartStore } from "@/store/cart";
 
 import Link from "next/link";
-
 import styles from "../styles/components/Navbar.module.scss";
+import { useCartStore } from "@/store/cart";
+import { Session } from "next-auth";
 
-export default function Navbar() {
+type Props = {
+	session: Session | null;
+};
+
+export default function Navbar({ session }: Props) {
 	const itemCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
+	const isLoggedIn = !!session?.user;
+	console.log("session:", session);
+
 	return (
 		<nav className={styles.navbar}>
 			<div className={styles.logo}>
@@ -25,6 +32,21 @@ export default function Navbar() {
 				<li>
 					<Link href="/cart">Cart{itemCount > 0 && <span className={styles.cartCount}>{itemCount}</span>}</Link>
 				</li>
+
+				{isLoggedIn ? (
+					<li>
+						<Link href="/profile">Profile</Link>
+					</li>
+				) : (
+					<>
+						<li>
+							<Link href="/signin">Sign In</Link>
+						</li>
+						<li>
+							<Link href="/signup">Sign Up</Link>
+						</li>
+					</>
+				)}
 			</ul>
 		</nav>
 	);

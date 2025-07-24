@@ -526,7 +526,7 @@ export default function AdminProductsPage() {
 					</tbody>
 				</table>
 			</div>
-			<ToastContainer position="top-right" autoClose={2000} />
+			<ToastContainer position="top-left" autoClose={2000} />
 		</div>
 	);
 }
