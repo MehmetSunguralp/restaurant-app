@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ products, nextCursor });
 	} catch (error) {
 		console.error("API GET /products error:", error);
-		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+		return NextResponse.json({ error: "Sunucu Hatası" }, { status: 500 });
 	}
 }
 
@@ -45,7 +45,7 @@ export async function PUT(req: NextRequest) {
 		return NextResponse.json(updated);
 	} catch (error) {
 		console.error("API PUT /products error:", error);
-		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+		return NextResponse.json({ error: "Sunucu Hatası" }, { status: 500 });
 	}
 }
 
@@ -60,7 +60,7 @@ export async function DELETE(req: NextRequest) {
 		return NextResponse.json({ success: true });
 	} catch (error) {
 		console.error("API DELETE /products error:", error);
-		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+		return NextResponse.json({ error: "Sunucu Hatası" }, { status: 500 });
 	}
 }
 
@@ -77,6 +77,6 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json(created);
 	} catch (error) {
 		console.error("API POST /products error:", error);
-		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+		return NextResponse.json({ error: "Sunucu Hatası" }, { status: 500 });
 	}
 }
