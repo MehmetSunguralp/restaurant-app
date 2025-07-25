@@ -109,6 +109,10 @@ export default function SignupPageClient({ session }: Props) {
 					Kayıt Ol
 				</button>
 
+				<div className={styles.forgotPassword} onClick={() => router.push("/signin")}>
+					Zaten Üyeyim?
+				</div>
+
 				{message && <div className={`${styles.message} ${styles.success}`}>{message}</div>}
 				{error && <div className={`${styles.message} ${styles.fail}`}>{error}</div>}
 			</form>

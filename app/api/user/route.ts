@@ -36,12 +36,11 @@ export async function POST(request: Request) {
 				emailVerifyExpires: new Date(Date.now() + 10 * 60 * 1000),
 			},
 		});
-		// In your signup route
 		await resend.emails.send({
 			from: "Restaurant App <onboarding@resend.dev>",
 			to: email,
-			subject: `E-posta Doğrulama Kodu | ${code} | Restaurant App`,
-			html: verificationEmailTemplate(code),
+			subject: `E-Posta Doğrulama Kodu | ${code} | Restaurant App`,
+			html: verificationEmailTemplate(code, "Kayıt işleminizi tamamlamak için aşağıdaki doğrulama kodunu kullanın:"),
 		});
 
 		const { password: newUserPassword, ...rest } = newUser;
@@ -50,3 +49,6 @@ export async function POST(request: Request) {
 		return NextResponse.json({ error: "Bir sorun oluştu" }, { status: 500 });
 	}
 }
+
+
+

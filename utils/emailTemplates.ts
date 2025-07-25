@@ -1,8 +1,8 @@
-export const verificationEmailTemplate = (code: string) => `
+export const verificationEmailTemplate = (code: string, title: string ) => `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
     <h2 style="text-align: center; color: #333;">Hesabınızı Doğrulayın</h2>
     <p>Merhaba,</p>
-    <p>Kayıt işleminizi tamamlamak için aşağıdaki doğrulama kodunu kullanın:</p>
+    <p>${title}</p>
     <div style="text-align: center; margin: 24px 0;">
       <span style="font-size: 28px; font-weight: bold; background: #f0f0f0; padding: 12px 24px; border-radius: 8px;">${code}</span>
     </div>

@@ -22,20 +22,30 @@ export const authOptions: NextAuthOptions = {
 			},
 			async authorize(credentials) {
 				if (!credentials?.email || !credentials?.password) return null;
-				else {
-					const isExistingUser = await prisma.user.findUnique({
-						where: { email: credentials.email },
-					});
-					if (!isExistingUser) return null;
-					const isPasswordValid = await compare(credentials.password, isExistingUser.password);
-					if (!isPasswordValid) return null;
-					return {
-						id: isExistingUser.id,
-						name: isExistingUser.name,
-						surname: isExistingUser.surname,
-						email: isExistingUser.email,
-					};
+
+				const user = await prisma.user.findUnique({
+					where: { email: credentials.email },
+				});
+
+				if (!user) {
+					throw new Error("Böyle bir e-posta bulunamadı.");
 				}
+				
+				if (!user.isVerified) {
+					throw new Error("Lütfen e-posta adresinizi doğrulayın.");
+				}
+
+				const isPasswordValid = await compare(credentials.password, user.password);
+				if (!isPasswordValid) {
+					throw new Error("Şifre yanlış.");
+				}
+
+				return {
+					id: user.id,
+					name: user.name,
+					surname: user.surname,
+					email: user.email,
+				};
 			},
 		}),
 	],
@@ -56,7 +66,7 @@ export const authOptions: NextAuthOptions = {
 				return {
 					...token,
 					name: user.name,
-					surname: user.surname, // This is coming from authorize()
+					surname: user.surname,
 					email: user.email,
 				};
 			}

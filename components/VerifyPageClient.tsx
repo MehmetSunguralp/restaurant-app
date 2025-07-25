@@ -45,8 +45,24 @@ export default function VerifyPageClient() {
 		setError(null);
 
 		const codeStr = code.join("");
+
+		// URL parametresini oku
+		const searchParams = new URLSearchParams(window.location.search);
+		const verifyType = searchParams.get("verify");
+
+		let endpoint = "";
+		let redirect = "";
+
+		if (verifyType === "password_reset_code") {
+			endpoint = "/api/verify-reset-code";
+			redirect = `/confirm-reset`;
+		} else {
+			endpoint = "/api/verify";
+			redirect = "/signin?signupSuccess=true";
+		}
+
 		try {
-			const res = await fetch("/api/verify", {
+			const res = await fetch(endpoint, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email, code: codeStr }),
@@ -56,8 +72,8 @@ export default function VerifyPageClient() {
 			if (!res.ok) {
 				setError(data || "Doğrulama başarısız oldu.");
 			} else {
-				localStorage.removeItem("emailToVerify");
-				router.push("/signin?signupSuccess=true");
+				if (verifyType !== "password_reset_code") localStorage.removeItem("emailToVerify");
+				router.push(redirect);
 			}
 		} catch (err) {
 			setError("Sunucu hatası.");
@@ -68,8 +84,16 @@ export default function VerifyPageClient() {
 
 	return (
 		<div className={styles.formContainer}>
-			<h1 className={styles.title}>E-Posta Doğrulama</h1>
-			<p className={styles.description}>Lütfen e-posta adresinize gönderilen 6 haneli kodu girin.</p>
+			<h1 className={styles.title}>
+				{typeof window !== "undefined" && new URLSearchParams(window.location.search).get("verify") === "password_reset_code"
+					? "Şifre Sıfırlama"
+					: "E-Posta Doğrulama"}
+			</h1>
+			<p className={styles.description}>
+				{typeof window !== "undefined" && new URLSearchParams(window.location.search).get("verify") === "password_reset_code"
+					? "Şifrenizi sıfırlamak için e-posta adresinize gelen 6 haneli kodu girin."
+					: "Lütfen e-posta adresinize gönderilen 6 haneli kodu girin."}
+			</p>
 
 			<div style={{ display: "flex", gap: 10, justifyContent: "center", margin: "16px 0" }}>
 				{code.map((digit, index) => (

@@ -18,6 +18,7 @@ export default function SignInPageClient({ session }: Props) {
 	const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
 	const params = useSearchParams();
 	const signupSuccess = params.get("signupSuccess");
+	const resetSuccess = params.get("resetSuccess");
 	const router = useRouter();
 
 	useEffect(() => {
@@ -29,7 +30,10 @@ export default function SignInPageClient({ session }: Props) {
 		if (signupSuccess) {
 			toast.success("Kayıt başarılı! Lütfen giriş yapın.");
 		}
-	}, [session, signupSuccess, setIsLoggedIn]);
+		if (resetSuccess) {
+			toast.success("Şifre değiştirme işlemi başarılı! Lütfen yeni şifre ile giriş yapın.");
+		}
+	}, [session, signupSuccess, resetSuccess, setIsLoggedIn]);
 
 	const formik = useFormik({
 		initialValues: {
@@ -51,7 +55,7 @@ export default function SignInPageClient({ session }: Props) {
 			});
 
 			if (res?.error) {
-				toast.error("Giriş başarısız");
+				toast.error(res.error);
 			} else {
 				toast.success("Başarıyla giriş yapıldı");
 				formik.resetForm();
@@ -93,6 +97,10 @@ export default function SignInPageClient({ session }: Props) {
 						className={`${styles.input} ${formik.touched.password && formik.errors.password ? styles.inputError : ""}`}
 					/>
 					{formik.touched.password && formik.errors.password && <div className={styles.error}>{formik.errors.password}</div>}
+				</div>
+
+				<div className={styles.forgotPassword} onClick={() => router.push("/forgot-password")}>
+					Şifremi Unuttum
 				</div>
 
 				<button type="submit" className={styles.button}>
