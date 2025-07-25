@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 import styles from "@/styles/components/SignUp.module.scss";
 
 export default function VerifyPageClient() {
@@ -9,6 +10,15 @@ export default function VerifyPageClient() {
 	const router = useRouter();
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		const email = localStorage.getItem("emailToVerify");
+		if (!email) {
+			setError("E-posta adresi bulunamadı.");
+			return;
+		}
+		toast.success(`Doğrulama kodu ${email} adresine gönderildi.`);
+	}, []);
 
 	const handleChange = (value: string, index: number) => {
 		if (!/^\d?$/.test(value)) return;
@@ -88,6 +98,7 @@ export default function VerifyPageClient() {
 			<button onClick={handleSubmit} className={styles.button} disabled={loading || code.includes("")}>
 				{loading ? "Kontrol ediliyor..." : "Doğrula"}
 			</button>
+			<ToastContainer position="top-left" autoClose={3000} />
 		</div>
 	);
 }
