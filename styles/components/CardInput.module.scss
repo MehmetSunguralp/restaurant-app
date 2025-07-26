@@ -1,0 +1,29 @@
+.cardInputContainer {
+	position: relative;
+	width: 100%;
+	max-width: 400px;
+}
+
+.cardInput {
+	width: 100%;
+	padding: 10px 40px 10px 12px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+.cardLogo {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	height: 36px;
+	width: 40px;
+	object-fit: contain;
+	pointer-events: none;
+}
+.label {
+	font-weight: 500;
+	//margin-bottom: 0.25rem;
+}
