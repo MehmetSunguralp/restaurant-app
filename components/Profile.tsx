@@ -17,7 +17,7 @@ type Error = {
 export default function Profile({ name, surname, email, role }: Props) {
 	const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
 	const setAuthDetails = useAuthStore((state) => state.setAuthDetails);
-	
+
 	const [showDeleteAccountSecton, setShowDeleteAccountSecton] = useState<boolean>(false);
 	const [passwordValue, setPasswordValue] = useState<string>("");
 	const [error, setError] = useState<Error>({ error: "" });
@@ -81,13 +81,15 @@ export default function Profile({ name, surname, email, role }: Props) {
 				<button className={styles.button} onClick={() => signOut({ callbackUrl: "/signin" })}>
 					Çıkış Yap
 				</button>
-				<button
-					className={styles.buttonWarning}
-					disabled={role === "ADMIN"}
-					onClick={() => setShowDeleteAccountSecton(!showDeleteAccountSecton)}
-				>
-					Hesabı Sil
-				</button>
+				{role !== "ADMIN" && (
+					<button
+						className={styles.buttonWarning}
+						disabled={role === "ADMIN"}
+						onClick={() => setShowDeleteAccountSecton(!showDeleteAccountSecton)}
+					>
+						Hesabı Sil
+					</button>
+				)}
 				{showDeleteAccountSecton && (
 					<div className={styles.formGroup}>
 						<label htmlFor="password" className={styles.label}>
