@@ -105,18 +105,6 @@ async function main() {
 	for (const data of productData) {
 		await prisma.product.create({ data });
 	}
-
-	// Create a test user
-	const password = await bcrypt.hash("password123", 10);
-	await prisma.user.upsert({
-		where: { email: "test@example.com" },
-		update: {},
-		create: {
-			email: "test@example.com",
-			password,
-			name: "Test User",
-		},
-	});
 }
 
 main()

@@ -1,24 +1,24 @@
 .home {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	min-height: 88dvh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .hero {
-  text-align: center;
-  margin-top: 4rem;
+	text-align: center;
+	margin-top: 4rem;
 }
 .menuBtn {
-  display: inline-block;
-  margin-top: 2rem;
-  background: #222;
-  color: #fff;
-  padding: 0.75rem 2rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: background 0.2s;
-  &:hover {
-    background: #444;
-  }
-} 
+	display: inline-block;
+	margin-top: 2rem;
+	background: #222;
+	color: #fff;
+	padding: 0.75rem 2rem;
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 1.2rem;
+	transition: background 0.2s;
+	&:hover {
+		background: #444;
+	}
+}

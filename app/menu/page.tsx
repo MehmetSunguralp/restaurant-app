@@ -7,6 +7,7 @@ import type { Category } from "@/types/product";
 import Skeleton from "@/components/Skeleton";
 
 import styles from "../../styles/components/Menu.module.scss";
+import { useAuthStore } from "@/store/authStore";
 
 export default function MenuPage() {
 	const [products, setProducts] = useState([]);
@@ -14,6 +15,8 @@ export default function MenuPage() {
 	const [selected, setSelected] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [loadingCategories, setLoadingCategories] = useState(true);
+	const role = useAuthStore((state) => state.role);
+	console.log("Product Card Role", role);
 
 	useEffect(() => {
 		setLoading(true);
@@ -59,7 +62,7 @@ export default function MenuPage() {
 					<div className={styles.products}>
 						{loading
 							? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} height={250} style={{ marginBottom: 16 }} />)
-							: products.map((product: any) => <ProductCard key={product.id} product={product} />)}
+							: products.map((product: any) => <ProductCard key={product.id} product={product} role={role}/>)}
 					</div>
 				</div>
 			</main>

@@ -1,4 +1,7 @@
 .about {
+	min-height: 88dvh;
+}
+.aboutContainer {
 	max-width: 600px;
 	margin: 4rem auto 0 auto;
 	padding: 2rem;
@@ -7,10 +10,10 @@
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 	text-align: center;
 }
-.about h1 {
+.aboutContainer h1 {
 	margin-bottom: 1.5rem;
 }
-.about p {
+.aboutContainer p {
 	margin-bottom: 1rem;
 	color: #444;
 	font-size: 1.1rem;

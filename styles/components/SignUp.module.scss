@@ -1,0 +1,87 @@
+.signinPage {
+	min-height: 88dvh;
+}
+
+.formContainer {
+	max-width: 400px;
+	margin: 3rem auto;
+	padding: 2rem;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+	background-color: #fff;
+}
+
+.title {
+	font-size: 1.8rem;
+	font-weight: 600;
+	text-align: center;
+	margin-bottom: 1.5rem;
+}
+
+.formGroup {
+	margin-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.label {
+	font-weight: 500;
+	margin-bottom: 0.25rem;
+}
+
+.input {
+	padding: 0.6rem 0.75rem;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: 1rem;
+}
+
+.inputError {
+	border-color: #dc3545;
+	background-color: #fff0f0;
+}
+
+.error {
+	color: #dc3545;
+	font-size: 0.875rem;
+	margin-top: 0.25rem;
+}
+
+.button {
+	background-color: #0070f3;
+	color: white;
+	padding: 0.75rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	margin-top: 0.5rem;
+}
+
+.button:hover {
+	background-color: #005fd1;
+}
+
+.message {
+	margin-top: 1rem;
+	text-align: center;
+	font-weight: 500;
+}
+
+.success {
+	color: #28a745;
+}
+
+.fail {
+	color: #dc3545;
+}
+
+.forgotPassword {
+	text-align: center;
+	margin-top: 1rem;
+	color: #0070f3;
+	cursor: pointer;
+	text-decoration: underline;
+}
