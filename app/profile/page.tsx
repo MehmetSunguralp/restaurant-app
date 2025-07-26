@@ -13,6 +13,7 @@ export default async function ProfilePage() {
 			name={user?.name}
 			surname={user?.surname}
 			email={user?.email}
+			role={user?.role}
 		/>
 	);
 }

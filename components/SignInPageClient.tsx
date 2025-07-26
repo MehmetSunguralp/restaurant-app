@@ -16,6 +16,7 @@ type Props = {
 
 export default function SignInPageClient({ session }: Props) {
 	const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+	const setAuthDetails = useAuthStore((state) => state.setAuthDetails);
 	const params = useSearchParams();
 	const signupSuccess = params.get("signupSuccess");
 	const resetSuccess = params.get("resetSuccess");
@@ -25,6 +26,7 @@ export default function SignInPageClient({ session }: Props) {
 		// If session exists on load, update Zustand store
 		if (session?.user) {
 			setIsLoggedIn(true);
+			setAuthDetails(session?.user.email, session?.user.role);
 			router.push("/menu");
 		}
 

@@ -2,17 +2,22 @@
 import { signOut } from "next-auth/react";
 import styles from "@/styles/components/Profile.module.scss";
 import { useState } from "react";
+import { useAuthStore } from "@/store/authStore";
 
 type Props = {
 	name?: string;
 	surname?: string;
 	email?: string;
+	role?: string;
 };
 
 type Error = {
 	error: string;
 };
-export default function Profile({ name, surname, email }: Props) {
+export default function Profile({ name, surname, email, role }: Props) {
+	const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+	const setAuthDetails = useAuthStore((state) => state.setAuthDetails);
+	
 	const [showDeleteAccountSecton, setShowDeleteAccountSecton] = useState<boolean>(false);
 	const [passwordValue, setPasswordValue] = useState<string>("");
 	const [error, setError] = useState<Error>({ error: "" });
@@ -24,6 +29,10 @@ export default function Profile({ name, surname, email }: Props) {
 	const handleSubmitDelete = async () => {
 		if (!passwordValue) {
 			setError({ error: "Şifre gereklidir." });
+			return;
+		}
+		if (role === "ADMIN") {
+			setError({ error: "Admin hesabı silinemez." });
 			return;
 		}
 
@@ -40,6 +49,8 @@ export default function Profile({ name, surname, email }: Props) {
 				const data = await res.json();
 				setError(data);
 			} else {
+				setIsLoggedIn(false);
+				setAuthDetails(null, "USER");
 				signOut({ callbackUrl: "/signup" });
 			}
 		} catch (err) {
@@ -70,7 +81,11 @@ export default function Profile({ name, surname, email }: Props) {
 				<button className={styles.button} onClick={() => signOut({ callbackUrl: "/signin" })}>
 					Çıkış Yap
 				</button>
-				<button className={styles.buttonWarning} onClick={() => setShowDeleteAccountSecton(!showDeleteAccountSecton)}>
+				<button
+					className={styles.buttonWarning}
+					disabled={role === "ADMIN"}
+					onClick={() => setShowDeleteAccountSecton(!showDeleteAccountSecton)}
+				>
 					Hesabı Sil
 				</button>
 				{showDeleteAccountSecton && (

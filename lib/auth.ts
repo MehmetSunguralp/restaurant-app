@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
 				if (!user) {
 					throw new Error("Böyle bir e-posta bulunamadı.");
 				}
-				
+
 				if (!user.isVerified) {
 					throw new Error("Lütfen e-posta adresinizi doğrulayın.");
 				}
@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
 					name: user.name,
 					surname: user.surname,
 					email: user.email,
+					role: user.role,
 				};
 			},
 		}),
@@ -58,6 +59,7 @@ export const authOptions: NextAuthOptions = {
 					name: token.name,
 					surname: token.surname,
 					email: token.email,
+					role: token.role,
 				},
 			};
 		},
@@ -68,6 +70,7 @@ export const authOptions: NextAuthOptions = {
 					name: user.name,
 					surname: user.surname,
 					email: user.email,
+					role: user.role,
 				};
 			}
 			return token;

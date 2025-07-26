@@ -1,5 +1,3 @@
-// Prisma schema for restaurant ordering app
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +5,12 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  EMPLOYEE
+  ADMIN
 }
 
 model User {
@@ -18,6 +22,7 @@ model User {
   isVerified         Boolean  @default(false)
   emailVerifyCode    String?  // 6-digit code
   emailVerifyExpires DateTime?
+  role      Role     @default(USER)
   orders    Order[]
   createdAt DateTime @default(now())
 }

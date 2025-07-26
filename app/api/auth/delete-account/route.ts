@@ -15,6 +15,10 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: "Bu e-postaya ait bir kullanıcı bulunamadı." }, { status: 404 });
 		}
 
+		if (user.role === "ADMIN") {
+			return NextResponse.json({ error: "Admin hesabı silinemez." }, { status: 403 });
+		}
+
 		const isPasswordValid = await compare(password, user.password);
 		if (!isPasswordValid) {
 			return NextResponse.json({ error: "Şifre yanlış." }, { status: 401 });
