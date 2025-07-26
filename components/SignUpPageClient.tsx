@@ -22,6 +22,7 @@ export default function SignupPageClient({ session }: Props) {
 	useEffect(() => {
 		if (session?.user) {
 			setIsLoggedIn(true);
+			router.push("/menu");
 		}
 	}, [session, setIsLoggedIn]);
 
@@ -50,7 +51,7 @@ export default function SignupPageClient({ session }: Props) {
 			setError(null);
 
 			try {
-				const res = await fetch("/api/user", {
+				const res = await fetch("/api/auth/user", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",

@@ -124,9 +124,9 @@ export default function AdminProductsPage() {
 			fetch(url)
 				.then((res) => res.json())
 				.then((data) => setProducts(data.products));
-			toast.success("Product saved.");
+			toast.success("Ürün kaydedildi.");
 		} else {
-			toast.error("Failed to save product.");
+			toast.error("Bir sorun oluştu.");
 		}
 		setLoading(false);
 	};
@@ -208,12 +208,12 @@ export default function AdminProductsPage() {
 				padding: 32,
 				minHeight: "100vh",
 				fontFamily: "Inter, sans-serif",
-				background: "rgba(255,255,255,0.92)", // lighter overlay for admin
+				background: "rgba(255,255,255,0.92)",
 				borderRadius: 16,
 				boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
 				margin: 32,
 				position: "relative",
-				zIndex: 2, // ensure above global overlay
+				zIndex: 2,
 			}}
 		>
 			<style>{`

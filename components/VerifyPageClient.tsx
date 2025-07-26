@@ -54,10 +54,10 @@ export default function VerifyPageClient() {
 		let redirect = "";
 
 		if (verifyType === "password_reset_code") {
-			endpoint = "/api/verify-reset-code";
+			endpoint = "/api/auth/verify-reset-code";
 			redirect = `/confirm-reset`;
 		} else {
-			endpoint = "/api/verify";
+			endpoint = "/api/auth/verify";
 			redirect = "/signin?signupSuccess=true";
 		}
 

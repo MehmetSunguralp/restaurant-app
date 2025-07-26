@@ -48,7 +48,7 @@ export default function ResetPasswordPage() {
 
 			setLoading(true);
 			try {
-				const res = await fetch("/api/confirm-reset", {
+				const res = await fetch("/api/auth/confirm-reset", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ email, newPassword: values.newPassword }),

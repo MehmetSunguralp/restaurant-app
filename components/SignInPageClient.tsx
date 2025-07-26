@@ -25,6 +25,7 @@ export default function SignInPageClient({ session }: Props) {
 		// If session exists on load, update Zustand store
 		if (session?.user) {
 			setIsLoggedIn(true);
+			router.push("/menu");
 		}
 
 		if (signupSuccess) {
