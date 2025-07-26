@@ -48,42 +48,44 @@ export default function Profile({ name, surname, email }: Props) {
 	};
 
 	return (
-		<div className={styles.formContainer}>
-			<h1 className={styles.title}>Profiliniz</h1>
+		<main className={styles.profilePage}>
+			<div className={styles.formContainer}>
+				<h1 className={styles.title}>Profiliniz</h1>
 
-			<div className={styles.infoGroup}>
-				<div className={styles.label}>İsim:</div>
-				<div className={styles.value}>{name}</div>
-			</div>
-
-			<div className={styles.infoGroup}>
-				<div className={styles.label}>Soyisim:</div>
-				<div className={styles.value}>{surname}</div>
-			</div>
-
-			<div className={styles.infoGroup}>
-				<div className={styles.label}>Email:</div>
-				<div className={styles.value}>{email}</div>
-			</div>
-
-			<button className={styles.button} onClick={() => signOut({ callbackUrl: "/signin" })}>
-				Çıkış Yap
-			</button>
-			<button className={styles.buttonWarning} onClick={() => setShowDeleteAccountSecton(!showDeleteAccountSecton)}>
-				Hesabı Sil
-			</button>
-			{showDeleteAccountSecton && (
-				<div className={styles.formGroup}>
-					<label htmlFor="password" className={styles.label}>
-						Şifre
-					</label>
-					<input id="password" type="password" value={passwordValue} onChange={handlePasswordChange} className={styles.input} />
-					{error.error && <div className={styles.error}>{error.error}</div>}
-					<button className={styles.buttonWarning} onClick={handleSubmitDelete}>
-						Silme İşlemini Onayla
-					</button>
+				<div className={styles.infoGroup}>
+					<div className={styles.label}>İsim:</div>
+					<div className={styles.value}>{name}</div>
 				</div>
-			)}
-		</div>
+
+				<div className={styles.infoGroup}>
+					<div className={styles.label}>Soyisim:</div>
+					<div className={styles.value}>{surname}</div>
+				</div>
+
+				<div className={styles.infoGroup}>
+					<div className={styles.label}>Email:</div>
+					<div className={styles.value}>{email}</div>
+				</div>
+
+				<button className={styles.button} onClick={() => signOut({ callbackUrl: "/signin" })}>
+					Çıkış Yap
+				</button>
+				<button className={styles.buttonWarning} onClick={() => setShowDeleteAccountSecton(!showDeleteAccountSecton)}>
+					Hesabı Sil
+				</button>
+				{showDeleteAccountSecton && (
+					<div className={styles.formGroup}>
+						<label htmlFor="password" className={styles.label}>
+							Şifre
+						</label>
+						<input id="password" type="password" value={passwordValue} onChange={handlePasswordChange} className={styles.input} />
+						{error.error && <div className={styles.error}>{error.error}</div>}
+						<button className={styles.buttonWarning} onClick={handleSubmitDelete}>
+							Silme İşlemini Onayla
+						</button>
+					</div>
+				)}
+			</div>
+		</main>
 	);
 }

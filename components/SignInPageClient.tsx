@@ -71,44 +71,46 @@ export default function SignInPageClient({ session }: Props) {
 	});
 
 	return (
-		<div className={styles.formContainer}>
-			<h1 className={styles.title}>Giriş Yap</h1>
-			<form onSubmit={formik.handleSubmit}>
-				<div className={styles.formGroup}>
-					<label htmlFor="email" className={styles.label}>
-						Email
-					</label>
-					<input
-						id="email"
-						type="email"
-						{...formik.getFieldProps("email")}
-						className={`${styles.input} ${formik.touched.email && formik.errors.email ? styles.inputError : ""}`}
-					/>
-					{formik.touched.email && formik.errors.email && <div className={styles.error}>{formik.errors.email}</div>}
-				</div>
+		<main className={styles.signinPage}>
+			<div className={styles.formContainer}>
+				<h1 className={styles.title}>Giriş Yap</h1>
+				<form onSubmit={formik.handleSubmit}>
+					<div className={styles.formGroup}>
+						<label htmlFor="email" className={styles.label}>
+							Email
+						</label>
+						<input
+							id="email"
+							type="email"
+							{...formik.getFieldProps("email")}
+							className={`${styles.input} ${formik.touched.email && formik.errors.email ? styles.inputError : ""}`}
+						/>
+						{formik.touched.email && formik.errors.email && <div className={styles.error}>{formik.errors.email}</div>}
+					</div>
 
-				<div className={styles.formGroup}>
-					<label htmlFor="password" className={styles.label}>
-						Şifre
-					</label>
-					<input
-						id="password"
-						type="password"
-						{...formik.getFieldProps("password")}
-						className={`${styles.input} ${formik.touched.password && formik.errors.password ? styles.inputError : ""}`}
-					/>
-					{formik.touched.password && formik.errors.password && <div className={styles.error}>{formik.errors.password}</div>}
-				</div>
+					<div className={styles.formGroup}>
+						<label htmlFor="password" className={styles.label}>
+							Şifre
+						</label>
+						<input
+							id="password"
+							type="password"
+							{...formik.getFieldProps("password")}
+							className={`${styles.input} ${formik.touched.password && formik.errors.password ? styles.inputError : ""}`}
+						/>
+						{formik.touched.password && formik.errors.password && <div className={styles.error}>{formik.errors.password}</div>}
+					</div>
 
-				<div className={styles.forgotPassword} onClick={() => router.push("/forgot-password")}>
-					Şifremi Unuttum
-				</div>
+					<div className={styles.forgotPassword} onClick={() => router.push("/forgot-password")}>
+						Şifremi Unuttum
+					</div>
 
-				<button type="submit" className={styles.button}>
-					Giriş Yap
-				</button>
-			</form>
-			<ToastContainer position="top-left" autoClose={3000} />
-		</div>
+					<button type="submit" className={styles.button}>
+						Giriş Yap
+					</button>
+				</form>
+				<ToastContainer position="top-left" autoClose={3000} />
+			</div>
+		</main>
 	);
 }

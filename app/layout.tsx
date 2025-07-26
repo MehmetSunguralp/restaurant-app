@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			</head>
 			<body style={{ fontFamily: "Inter, Arial, sans-serif" }}>
 				<NavbarWrapper />
-				<NextTopLoader showSpinner={false} height={10} />
+				<NextTopLoader showSpinner={false} height={6} color="#000000" />
 				{children}
 				<Footer />
 			</body>
