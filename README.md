@@ -75,4 +75,11 @@ npm run dev
 
 ---
 
+## Example Environment Variables
+```
+DATABASE_URL=<PostgreSQL_URL>
+NEXTAUTH_SECRET=<Secret_Key>
+RESEND_API_KEY=<Resend_API_Key>
+```
+
 **Happy coding!**
