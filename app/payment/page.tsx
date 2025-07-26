@@ -50,7 +50,7 @@ export default function PaymentPage() {
 				const data = await res.json();
 				if (data.result.status === "success") {
 					alert("Ödeme başarılı!");
-					router.push("/tesekkurler");
+					//router.push("/tesekkurler");
 				} else {
 					alert("Ödeme başarısız: " + data.error?.errorMessage || "Hata oluştu");
 				}
@@ -69,7 +69,7 @@ export default function PaymentPage() {
 		if (/^3[47]/.test(number)) return "amex";
 		if (/^6(?:011|5)/.test(number)) return "discover";
 		if (/^35(2[89]|[3-8][0-9])/.test(number)) return "jcb";
-		if (/^9792/.test(number)) return "troy"; // ✅ added Troy support
+		if (/^9792/.test(number)) return "troy";
 
 		return "unknown";
 	}

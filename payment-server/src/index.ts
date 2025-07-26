@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import Iyzipay from "iyzipay";
+import Iyzipay, { PaymentRequestData } from "iyzipay";
 import cors from "cors";
 dotenv.config();
 
@@ -30,11 +30,11 @@ app.post("/api/payment", (req, res) => {
 		paymentChannel: Iyzipay.PAYMENT_CHANNEL.WEB,
 		paymentGroup: Iyzipay.PAYMENT_GROUP.PRODUCT,
 		paymentCard: {
-			cardHolderName: "John Doe",
-			cardNumber: "4766620000000001",
-			expireMonth: "12",
-			expireYear: "2030",
-			cvc: "123",
+			cardHolderName: body.cardHolderName,
+			cardNumber: body.cardNumber,
+			expireMonth: body.expireMonth,
+			expireYear: body.expireYear,
+			cvc: body.cvc,
 			cardAlias: "",
 		},
 		buyer: {
